@@ -15,6 +15,14 @@ app.get('/', (req,res) => {
 
 app.use('/api/tasks', taskRoutes);
 
+app.use((req,res) => {
+    res.status(404).json({message: 'Route Not Found'});
+});
+
+app.use((err, req, res, next) => {
+    res.status(500).json({message: 'Something  Went Wrong', error: err.message});
+});
+
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('Connected To MongoDB'))
 .catch((err) => console.log('MongoDB Connection Error:',err));
